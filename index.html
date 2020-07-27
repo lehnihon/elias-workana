@@ -1,0 +1,582 @@
+<!DOCTYPE HTML>
+<html lang="pt-BR">
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   </head>
+   <body>
+      <!-- Seleciona automaticamente a data no campo "Data de Envio" -->
+      <script>
+         $(document).ready( function() {
+          var apiurl = "http://localhost/elias-workana/api";
+          var now = new Date();
+          var month = (now.getMonth() + 1);               
+          var day = now.getDate();
+          if (month < 10) 
+              month = "0" + month;
+          if (day < 10) 
+              day = "0" + day;
+          var today = now.getFullYear() + '-' + month + '-' + day;
+          $('#data-envio').val(today);
+
+          $('#show-destaques').on('change',function(){
+            if($(this).is(':checked')){
+               $('.destaques-qty').show('slow');
+            }else{
+               $('.destaques-qty').hide('slow');
+            }
+          });
+          $('.destaques-qty').on('change', function () {
+            qty = $(this).find('.form-control').val();
+            $('.destaques-inputs').html('');
+            for(i = 0; i < qty; i++){
+               dest = $('<div class="form-group row"><label class= "col-md-4 control-label" for= "textinput" > Publicação '+ (i+1)+'</label ><div class="col-md-8"><input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md destaques-item" required=""><small class="form-text text-muted">Informe a URL da publicação ' + (i + 1) +'</small>  </div></div>');
+               $('.destaques-inputs').append(dest);
+            }
+            
+          });
+          $('.destaques-inputs').on('change', '.destaques-item', function () {
+            var item = $(this);
+            item.removeClass('is-valid');
+            item.removeClass('is-invalid');
+            $.ajax({
+                method: "POST",
+                url: apiurl+"/post",
+                data: { url:$(this).val() }
+             })
+               .done(function () {
+                  item.addClass('is-valid');
+               })
+               .fail(function () {
+                  item.addClass('is-invalid');
+               });
+          }); 
+         });
+      </script>
+      <style>
+         .area-ferramenta {
+         max-width: 600px;
+         width: 100%;
+         position: relative;
+         margin: 0 auto;
+         padding: 20px 0 200px;
+         }
+         label.control-label {
+         font-weight: 500;
+         }
+         fieldset {
+         margin-bottom: 20px;
+         }
+         .custom-switch {
+         padding: 5px 0 10px 2.25rem;
+         }
+         .custom-switch small {
+         margin-top: 0px;
+         margin-bottom: 10px;
+         }
+         .custom-switch+.custom-switch {
+         padding: 0px 0 10px 2.25rem;
+         }
+         @media (min-width: 1200px) {
+         .container {
+         width: 1220px;
+         }
+         .preview-fixed {
+         position: fixed;
+         top: 0;
+         right: 0;
+         height: calc(100% - 100px);
+         background: #fff;
+         max-width: 900px;
+         padding: 14px 23px 0px;
+         }
+         }
+      </style>
+      <div class="area-ferramenta">
+         <div class="row">
+            <div class="col-md-12">
+               <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="#">Ferramentas</a></li>
+                     <li class="breadcrumb-item"><a href="#">EMKT</a></li>
+                     <li class="breadcrumb-item active" aria-current="page">Gerador de Newsletter</li>
+                  </ol>
+               </nav>
+               <h3>Gerador de Newsletter <span class="badge badge-primary">Atualizado</span></h3>
+               <p>Essa ferramenta permite que você crie facilmente uma newsletter.<br></p>
+               <div class="alert alert-success" role="alert">
+                  <small>
+                     Preencha os campos obrigatórios (marcados com *) no formulário abaixo e, uma vez preenchido, o código completo da newsletter será gerado para você. 
+                     <hr>
+                     <strong>Nota:</strong> o código gerado é atualizado automaticamente à medida que você faz alterações.
+                  </small>
+               </div>
+               <p></p>
+               <form class="form-horizontal">
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Informações</legend>
+                     <div class="form-group row">
+                        <label for="data-envio" class="col-4 col-form-label">Data de Envio</label>
+                        <div class="col-8">
+                           <input class="form-control" type="date" value="2020-08-01" id="data-envio">
+                           <small class="form-text text-muted">Personalize a data de exibição na newsletter.</small>
+                        </div>
+                     </div>
+                  </fieldset>
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Destaques</legend>
+                     <!-- Multiple Radios (inline) -->
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-destaques" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-destaques">Exibir Destaques</label>
+                        <small class="form-text text-muted">Habilite está opção para exibir publicações com destaque na newsletter.</small>  
+                     </div>
+                     <!-- Quantidade -->
+                     <div class="form-group row destaques-qty" style="display:none">
+                        <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
+                        <div class="col-md-8">
+                           <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="" selected disabled>Selecione</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                           </select>
+                           <small class="form-text text-muted">Quantas publicações deseja destacar na newsletter?</small>  
+                        </div>
+                     </div>
+                     <div class="destaques-inputs">
+                     </div>  
+                  </fieldset>
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Notícias</legend>
+                     <!-- Multiple Radios (inline) -->
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-noticias" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-noticias">Exibir Notícias</label>
+                        <small class="form-text text-muted">Habilite está opção para exibir notícias na newsletter.</small>  
+                     </div>
+                     <!-- Quantidade -->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
+                        <div class="col-md-8">
+                           <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6" selected="">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                           </select>
+                           <small class="form-text text-muted">Quantas notícias deseja exibir na newsletter?</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 1</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 1</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 2</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 2</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 3</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 3</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 4</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 4</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 5</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 5</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 6</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 6</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 7</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 7</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 8</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 8</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 9</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 9</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 10</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 10</small>  
+                        </div>
+                     </div>
+                  </fieldset>
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Podcasts</legend>
+                     <!-- Multiple Radios (inline) -->
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-podcasts" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-podcasts">Exibir Podcasts</label>
+                        <small class="form-text text-muted">Habilite está opção para exibir podcasts na newsletter.</small>  
+                     </div>
+                     <!-- Quantidade -->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
+                        <div class="col-md-8">
+                           <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                           </select>
+                           <small class="form-text text-muted">Quantos podcasts deseja adicionar na newsletter?</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Podcast 1</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do podcast 1</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Podcast 2</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do podcast 2</small>  
+                        </div>
+                     </div>
+                  </fieldset>
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Blogs e Colunas</legend>
+                     <!-- Multiple Radios (inline) -->
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-blogs-colunas" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-blogs-colunas">Exibir Blogs e Colunas</label>
+                        <small class="form-text text-muted">Habilite está opção para exibir blogs e colunas na newsletter.</small>  
+                     </div>
+                     <!-- Quantidade -->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
+                        <div class="col-md-8">
+                           <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="1">1</option>
+                              <option value="2" selected="">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                           </select>
+                           <small class="form-text text-muted">Quantos blogs e/ou colunas deseja adicionar na newsletter?</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 1</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 1</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 2</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 2</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 3</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 3</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Publicação 4</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da publicação 4</small>  
+                        </div>
+                     </div>
+                  </fieldset>
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Estreias de Filmes</legend>
+                     <!-- Multiple Radios (inline) -->
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-estreias" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-estreias">Exibir Estreias de Filmes</label>
+                        <small class="form-text text-muted">Habilite está opção para exibir estreias de filmes newsletter.</small>  
+                     </div>
+                     <!-- Quantidade -->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
+                        <div class="col-md-8">
+                           <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="4">4</option>
+                              <option value="8">8</option>
+                           </select>
+                           <small class="form-text text-muted">Quantos filmes deseja adicionar na newsletter?</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Filme  1</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do filme 1</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Filme  2</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do filme 2</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Filme  3</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do filme 3</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">Filme  4</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do filme 4</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Filme  5</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do filme 5</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Filme  6</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do filme 6</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Filme  7</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do filme 7</small>  
+                        </div>
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row d-none">
+                        <label class="col-md-4 control-label" for="textinput">Filme  8</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL do filme 8</small>  
+                        </div>
+                     </div>
+                  </fieldset>
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Edição Impressa</legend>
+                     <!-- Multiple Radios (inline) -->
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-edicao-impressa" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-edicao-impressa">Exibir Edição Impressa</label>
+                        <small class="form-text text-muted">Habilite está opção para exibir a edição impressa na newsletter.</small>  
+                     </div>
+                     <!-- Text input-->
+                     <div class="form-group row">
+                        <label class="col-md-4 control-label" for="textinput">URL da Edição</label>  
+                        <div class="col-md-8">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <small class="form-text text-muted">Informe a URL da edição impressa</small>  
+                        </div>
+                     </div>
+                  </fieldset>
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Configurações Extras</legend>
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-share-email" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-share-email">Compartilhar E-mail
+                        <small class="form-text text-muted">Ativa os botões de compartilhamento da newsletter nas redes sociais.</small></label>
+                     </div>
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-share-post" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-share-post">Compartilhar Conteúdo
+                        <small class="form-text text-muted">Ativa os botões de compartilhamento de cada conteúdo da newsletter nas redes sociais.</small></label>
+                     </div>
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-publicidade" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-publicidade">Publicidade
+                        <small class="form-text text-muted">Exibir publicidade na newsletter.</small></label>
+                     </div>
+                  </fieldset>
+                  <div style="
+                     padding: 20px 0;
+                     ">
+                     <div class="alert alert-light" role="alert" style="
+                        border: 1px solid #007bff;
+                        ">
+                        <h5 style="
+                           color: #007bff;
+                           ">Copie ou baixe o código da newsletter gerada</h5>
+                        <hr style="
+                           margin-bottom: 10px;
+                           ">
+                        <small style="
+                           ">Use esse código em qualquer ferramenta de e-mail marketing que você deseja encaminhar esta newsletter personalizada.</small>
+                        <div style="
+                           text-align: right;
+                           ">
+                           <div class="form-group">
+                              <label for="exampleFormControlTextarea1"></label>
+                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" readonly="" style="
+                                 font-size: 12px;
+                                 background: #ced4da;
+                                 border: 1px solid #ced4da;
+                                 ">&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;div align="center"&gt;&lt;table border="0" cellspacing="0" cellpadding="0" width="620"&gt;&lt;tbody style="width: 620px;"&gt;&lt;tr id="cabecalho"&gt;&lt;td&gt;&lt;div id="topo"&gt;&lt;table border="0" cellspacing="0" cellpadding="0" width="620" style="width: 100%;"&gt;&lt;tbody&gt;&lt;tr class="ads"&gt;&lt;td colspan="2" style="padding: 0 0 10px 0;"&gt;&lt;p style="
+                              color: #8c8c8c;
+                              font-family: sans-serif;
+                              font-size: 10px;
+                              text-align: center;
+                              padding: 0;
+                              margin: 0;
+                              "&gt;Caso não esteja visualizando corretamente, &lt;a href="#link-ver-online" style="
+                              color: #8c8c8c;
+                              text-decoration: none;
+                              font-weight: bold;
+                              "&gt;clique aqui&lt;/a&gt;.&lt;/p&gt;
+                              &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+                              &lt;table border="0" cellspacing="0" cellpadding="0" width="620" style="width: 100%;"&gt;&lt;tbody&gt;&lt;tr class="ads"&gt;&lt;td colspan="2" style="padding: 0px 10px 15px 10px;"&gt;
+                              &lt;a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=181" target="_blank"&gt;&lt;img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=181&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""&gt;&lt;/a&gt;
+                              &lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table border="0" cellspacing="0" cellpadding="0" width="620" style="padding: 0px 10px;margin: 0px;border: 0px;width: 100%;"&gt;&lt;tbody style="background: #bd0a10;"&gt;&lt;tr&gt;&lt;td id="logo"&gt;&lt;a style="text-decoration: none;" href="https://amanha.com.br" target="_blank"&gt;&lt;span style="text-decoration:none"&gt;&lt;img border="0" width="258" height="107" src="https://amanha.com.br/images/newsletter/logo.jpg"&gt;&lt;/span&gt;&lt;/a&gt;&lt;/td&gt;&lt;td id="data"&gt;&lt;p style="font-size: 14px;font-family: sans-serif;color: #fff;text-align: right;padding-right: 20px;"&gt;01 de julho de 2020&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr id="conteudo"&gt;&lt;td&gt;&lt;div id="compartilhe"&gt;
+                              &lt;table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 0 10px;"&gt;
+                              &lt;tbody style="background: #000000;"&gt;</textarea>
+                           </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl" style="
+                           margin: 0;
+                           ">Pré-visualizar
+                        </button>
+                        <div class="btn-group" style="
+                           margin: 0 9px;
+                           ">
+                           <button type="button" class="btn btn-primary">Copiar Código</button>
+                           <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                           <span class="sr-only">Baixar Newsletter</span>
+                           </button>
+                           <div class="dropdown-menu" aria-labelledby="dropdownMenuReference" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                              <a class="dropdown-item" href="#">Baixar Código HTML</a>
+                              <a class="dropdown-item" href="#">Baixar Código TXT</a>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="alert alert-success" role="alert">Código da newsletter gerado com sucesso.</div>
+                     <div class="alert alert-warning" role="alert">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" style="
+                           right: 0;
+                           position: absolute;
+                           margin: 5px 15px;
+                           "></span>Por favor, aguarde...<br>Coletando conteúdo do portal e atualizando o código da newsletter.
+                     </div>
+                     <div class="alert alert-danger" role="alert">Desculpe. Houve um erro ao gerar o código da newsletter. <br>Atualize a página ou tente novamente mais tarde.</div>
+                  </div>
+                  <div>
+                     <!-- Modal -->
+                     <div class="modal fade bd-example-modal-xl" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h5 class="modal-title" id="exampleModalLongTitle">Pré-visualização de Newsletter</h5>
+                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">×</span>
+                                 </button>
+                              </div>
+                              <div class="modal-body" style="
+                                 height: 1000px;
+                                 padding: 0;
+                                 ">
+                                 <iframe src="newsletter.html" height="100%" width="100%" title="Pré-visualização" style="
+                                    border: none;
+                                    "></iframe>
+                              </div>
+                              <div class="modal-footer">
+                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                 <button type="button" class="btn btn-primary">Baixar Newsletter</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
