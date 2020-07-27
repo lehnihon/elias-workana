@@ -10,30 +10,236 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    </head>
    <body>
-      <!-- Seleciona automaticamente a data no campo "Data de Envio" -->
       <script>
          $(document).ready( function() {
-          var apiurl = "http://localhost/elias-workana/api";
-          var now = new Date();
-          var month = (now.getMonth() + 1);               
-          var day = now.getDate();
-          if (month < 10) 
-              month = "0" + month;
-          if (day < 10) 
-              day = "0" + day;
-          var today = now.getFullYear() + '-' + month + '-' + day;
-          $('#data-envio').val(today);
+          setInputDate("#data-envio");
+
+          /* CONFIGURACOES */
+          var apiurl = "http://localhost:8001/elias-workana/api";
+
+          var email_compartilhe = 'https://amanha.com.br';
+          var ad_header = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=181" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=181&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
+          var ad_destaque = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=182" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=182&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
+          var ad_rodape = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=185" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=185&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
+
+          /* EMAIL */   
+          var header_open = '<!DOCTYPE html><html lang="pt-br"><head></head><body><div align="center"><table border="0" cellspacing="0" cellpadding="0" width="620"><tbody style="width: 620px;"><tr id="cabecalho"><td><div id="topo">';
+          var header_email = '<table border="0" cellspacing="0" cellpadding="0" width="620" style="width: 100%;"><tbody><tr class="ads"><td colspan="2" style="padding: 0 0 10px 0;"><p style="color: #8c8c8c;font-family: sans-serif;font-size: 10px;text-align: center;padding: 0;margin: 0;">Caso não esteja visualizando corretamente, <a href="#link-ver-online" style="color: #8c8c8c;text-decoration: none;font-weight: bold;">clique aqui</a>.</p></td></tr></tbody></table>';
+          var header_ads = '<table border="0" cellspacing="0" cellpadding="0" width="620" style="width: 100%;"><tbody><tr class="ads"><td colspan="2" style="padding: 0px 10px 15px 10px;">'+ad_header+'</td></tr></tbody></table>';
+          var header_data = getInputDate();
+          var header_logo = '<table border="0" cellspacing="0" cellpadding="0" width="620" style="padding: 0px 10px;margin: 0px;border: 0px;width: 100%;"><tbody style="background: #bd0a10;"><tr><td id="logo"><a style="text-decoration: none;" href="https://amanha.com.br" target="_blank"><span style="text-decoration:none"><img border="0" width="258" height="107" src="https://amanha.com.br/images/newsletter/logo.jpg"></span></a></td><td id="data"><p style="font-size: 14px;font-family: sans-serif;color: #fff;text-align: right;padding-right: 20px;">'+header_data+'</p></td></tr></tbody></table>';
+          var header_close = '</div></td></tr>';
+
+          var conteudo_open = '<tr id="conteudo"><td>';
+          var conteudo_redes = '<div id="compartilhe"> <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="padding: 0 10px;"> <tbody style="background: #000000;"> <tr> <td valign="top"> <table align="center" width="470" border="0" cellpadding="0" cellspacing="0"> <tbody> <tr> <td valign="top" style="padding: 10px 5px 0 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td valign="middle" align="left"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle" style="padding: 5px;font-family: sans-serif;color: #a5a5a5;font-size: 12px;font-weight: bold;letter-spacing: .8px;"> Compartilhe: </td></tr></tbody></table> </td></tr></tbody></table> </td><td valign="top" style="padding: 10px 5px 10px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="https://www.facebook.com/sharer/sharer.php?u='+email_compartilhe+'"><img src="https://amanha.com.br/images/portal/ui/email/i-fb.png" height="24" width="24" alt="Compartilhe no Facebook"></a> </td> <td align="left" valign="middle" style="padding-left:5px"> <a href="https://www.facebook.com/sharer/sharer.php?u='+email_compartilhe+'" style="color: #8c8c8c;font-family: arial;font-size:12px;font-weight: bold;text-decoration: none;">Facebook</a> </td></tr></tbody></table> </td></tr></tbody></table> </td> <td valign="top" style="padding: 10px 5px 10px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="https://twitter.com/intent/tweet?url='+email_compartilhe+'"><img src="https://amanha.com.br/images/portal/ui/email/i-tw.png" height="24" width="24" alt="Compartilhe no Twitter"></a> </td> <td align="left" valign="middle" style="padding-left:5px"> <a href="https://twitter.com/intent/tweet?url='+email_compartilhe+'" style="color: #8c8c8c;font-family: arial;font-size:12px;font-weight: bold;text-decoration: none;">Twitter</a> </td></tr></tbody></table> </td></tr></tbody></table> </td> <td valign="top" style="padding: 10px 5px 10px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="https://linkedin.com/shareArticle?mini=true&amp;url='+email_compartilhe+'"><img src="https://amanha.com.br/images/portal/ui/email/i-in.png" height="24" width="24" alt="Compartilhe no Linkedin"></a> </td> <td align="left" valign="middle" style="padding-left:5px"> <a href="https://linkedin.com/shareArticle?mini=true&amp;url='+email_compartilhe+'" style="color: #8c8c8c;font-family: arial;font-size:12px;font-weight: bold;text-decoration: none;">Linkedin</a> </td></tr></tbody></table> </td></tr></tbody></table> </td><td valign="top" style="padding: 10px 5px 10px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="https://web.whatsapp.com/send?text='+email_compartilhe+'"><img src="https://amanha.com.br/images/portal/ui/email/i-wa.png" height="24" width="24" alt="Compartilhe no Whatsapp"></a> </td> <td align="left" valign="middle" style="padding-left:5px"> <a href="https://web.whatsapp.com/send?text='+email_compartilhe+'" style="color: #8c8c8c;font-family: arial;font-size:12px;font-weight: bold;text-decoration: none;">Whatsapp</a> </td></tr></tbody></table> </td></tr></tbody></table> </td></tr></tbody></table> </td> </tr></tbody></table> </div>';
+          var conteudo_close = '</td></tr>';
+
+          var conteudo_destaque_open = '<div id="destaque"><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody>';
+          var conteudo_destaque_template_r = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 100%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 5px 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: auto;max-width: 100%;" src="https:[Foto]" alt=""></a></p> <p style="margin: 10px 0 0 0;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 22px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> <p style="margin: 10px 0 0 0;"> <table width="160" cellpadding="0" cellspacing="0" border="0"> <tbody> <tr> <td><a href="https://www.facebook.com/sharer/sharer.php?u=[Link]" title="Compartilhar no Facebook"><img src="https://amanha.com.br/images/portal/ui/email/i-fb.png" width="30" height="30" style="margin-right:5px;" alt="Facebook"></a></td> <td><a href="https://twitter.com/intent/tweet?url=[Link]" title="Compartilhar no Twitter"><img src="https://amanha.com.br/images/portal/ui/email/i-tw.png" width="30" height="30" style="margin-right:5px;" alt="Twitter"></a></td> <td><a href="https://linkedin.com/shareArticle?mini=true&amp;url=[Link]" title="Compartilhar no Linkedin"><img src="https://amanha.com.br/images/portal/ui/email/i-in.png" width="30" height="30" style="margin-right:5px;" alt="Linkedin"></a></td> <td><a href="https://web.whatsapp.com/send?text=[Link]" title="Compartilhar no Whatsapp"><img src="https://amanha.com.br/images/portal/ui/email/i-wa.png" width="30" height="30" style="margin-right:5px;" alt="Whatsapp"></a></td> </tr> </tbody> </table> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_destaque_template = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 100%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 5px 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: auto;max-width: 100%;" src="https:[Foto]" alt=""></a></p> <p style="margin: 10px 0 0 0;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 22px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_destaque_list = [];
+          var conteudo_destaque = '';
+          var conteudo_destaque_ads = '<tr class="ads"><td colspan="2" style="padding: 20px 10px 0px 10px;">'+ad_destaque+'</td></tr>';
+          var conteudo_destaque_close = '</tbody></table></div>';
+
+          var conteudo_podcasts_open = '<div id="podcast"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">PODCAST</span></a> </p> </td> </tr>';        
+          var conteudo_podcasts_template_r = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> <p style="margin: 10px 0 0 0;"> <table width="160" cellpadding="0" cellspacing="0" border="0"> <tbody> <tr> <td><a href="https://www.facebook.com/sharer/sharer.php?u=[Link]" title="Compartilhar no Facebook"><img src="https://amanha.com.br/images/portal/ui/email/i-fb.png" width="30" height="30" style="margin-right:5px;" alt="Facebook"></a></td> <td><a href="https://twitter.com/intent/tweet?url=[Link]" title="Compartilhar no Twitter"><img src="https://amanha.com.br/images/portal/ui/email/i-tw.png" width="30" height="30" style="margin-right:5px;" alt="Twitter"></a></td> <td><a href="https://linkedin.com/shareArticle?mini=true&amp;url=[Link]" title="Compartilhar no Linkedin"><img src="https://amanha.com.br/images/portal/ui/email/i-in.png" width="30" height="30" style="margin-right:5px;" alt="Linkedin"></a></td> <td><a href="https://web.whatsapp.com/send?text=[Link]" title="Compartilhar no Whatsapp"><img src="https://amanha.com.br/images/portal/ui/email/i-wa.png" width="30" height="30" style="margin-right:5px;" alt="Whatsapp"></a></td> </tr> </tbody> </table> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_podcasts_template = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_podcasts_list = [];
+          var conteudo_podcasts = '';
+          var conteudo_podcasts_close = '</tbody> </table> </div>';
+          
+          var conteudo_noticias_open = '<div id="noticias"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">ÚLTIMAS NOTÍCIAS</span></a></p> </td> </tr>';        
+          var conteudo_noticias_template_r = '<td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> <p style="margin: 10px 0 0 0;"> <table width="160" cellpadding="0" cellspacing="0" border="0"> <tbody> <tr> <td><a href="https://www.facebook.com/sharer/sharer.php?u=[Link]" title="Compartilhar no Facebook"><img src="https://amanha.com.br/images/portal/ui/email/i-fb.png" width="30" height="30" style="margin-right:5px;" alt="Facebook"></a></td> <td><a href="https://twitter.com/intent/tweet?url=[Link]" title="Compartilhar no Twitter"><img src="https://amanha.com.br/images/portal/ui/email/i-tw.png" width="30" height="30" style="margin-right:5px;" alt="Twitter"></a></td> <td><a href="https://linkedin.com/shareArticle?mini=true&amp;url=[Link]" title="Compartilhar no Linkedin"><img src="https://amanha.com.br/images/portal/ui/email/i-in.png" width="30" height="30" style="margin-right:5px;" alt="Linkedin"></a></td> <td><a href="https://web.whatsapp.com/send?text=[Link]" title="Compartilhar no Whatsapp"><img src="https://amanha.com.br/images/portal/ui/email/i-wa.png" width="30" height="30" style="margin-right:5px;" alt="Whatsapp"></a></td> </tr> </tbody> </table> </p> </td> </tr> </tbody> </table> </td>';
+          var conteudo_noticias_template = '<td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> </td> </tr> </tbody> </table> </td>';
+          var conteudo_noticias_list = [];
+          var conteudo_noticias = '';
+          var conteudo_noticias_close = '</tbody> </table> </div>';
+
+          var conteudo_blogs_open = '<div id="podcast"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">PODCAST</span></a> </p> </td> </tr>';        
+          var conteudo_blogs_template_r = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> <p style="margin: 10px 0 0 0;"> <table width="160" cellpadding="0" cellspacing="0" border="0"> <tbody> <tr> <td><a href="https://www.facebook.com/sharer/sharer.php?u=[Link]" title="Compartilhar no Facebook"><img src="https://amanha.com.br/images/portal/ui/email/i-fb.png" width="30" height="30" style="margin-right:5px;" alt="Facebook"></a></td> <td><a href="https://twitter.com/intent/tweet?url=[Link]" title="Compartilhar no Twitter"><img src="https://amanha.com.br/images/portal/ui/email/i-tw.png" width="30" height="30" style="margin-right:5px;" alt="Twitter"></a></td> <td><a href="https://linkedin.com/shareArticle?mini=true&amp;url=[Link]" title="Compartilhar no Linkedin"><img src="https://amanha.com.br/images/portal/ui/email/i-in.png" width="30" height="30" style="margin-right:5px;" alt="Linkedin"></a></td> <td><a href="https://web.whatsapp.com/send?text=[Link]" title="Compartilhar no Whatsapp"><img src="https://amanha.com.br/images/portal/ui/email/i-wa.png" width="30" height="30" style="margin-right:5px;" alt="Whatsapp"></a></td> </tr> </tbody> </table> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_blogs_template = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_blogs_list = [];
+          var conteudo_blogs = '';
+          var conteudo_blogs_close = '</tbody> </table> </div>';
+
+          var conteudo_filmes_open = '<div id="podcast"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">PODCAST</span></a> </p> </td> </tr>';        
+          var conteudo_filmes_template = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_filmes_list = [];
+          var conteudo_filmes = '';
+          var conteudo_filmes_close = '</tbody> </table> </div>';
+
+          var conteudo_edicao_open = '<div id="podcast"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">PODCAST</span></a> </p> </td> </tr>';        
+          var conteudo_edicao_template = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_edicao = '';
+          var conteudo_edicao_close = '</tbody> </table> </div>';
+
+          var rodape_open = '<tr id="rodape"><td style="padding: 0px 10px 0px 10px;">';
+          var rodape_ads = '<div id="ads"><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr class="ads"><td colspan="2" style="padding: 20px 0px 20px 0px;">'+ad_rodape+'</td></tr></tbody></table></div>';
+          var rodape_redes = '<div id="copyright"><img border="0" width="600" height="1" src="https://amanha.com.br/images/newsletter/divider.jpg" style="padding-top: 0px;padding-bottom: 10px;"><div style="background: #e9e9e9;color: #8c8c8c;padding: 10px;text-align: center;line-height: 16px;"><div id="siga-nos"> <table align="center" width="250px" border="0" cellpadding="0" cellspacing="0"> <tbody> <tr> <td valign="top" style="padding: 15px 5px 15px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="#link-siga-facebook" title="Curta nossa página no Facebook"><img alt="Curta nossa página no Facebook" width="24" height="24" src="https://amanha.com.br/images/portal/ui/email/i-fb.png"></a> </td> </tr></tbody></table> </td></tr></tbody></table> </td> <td valign="top" style="padding: 15px 5px 15px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="#link-siga-twitter" title="Siga-nos no Twitter"><img src="https://amanha.com.br/images/portal/ui/email/i-tw.png" height="24" width="24" alt="Siga-nos no Twitter"></a> </td> </tr></tbody></table> </td></tr></tbody></table> </td> <td valign="top" style="padding: 15px 5px 15px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="#link-siga-linkedin" title="Siga-nos no Linkedin"><img src="https://amanha.com.br/images/portal/ui/email/i-in.png" height="24" width="24" alt="Siga-nos no Linkedin"></a> </td> </tr></tbody></table> </td></tr></tbody></table> </td><td valign="top" style="padding: 15px 5px 15px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="#link-siga-instagram" title="Siga-nos no Instagram"><img src="https://amanha.com.br/images/portal/ui/email/i-ig.png" height="24" width="24" alt="Siga-nos no Instagram"></a> </td> </tr></tbody></table> </td></tr></tbody></table> </td><td valign="top" style="padding: 15px 5px 15px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="#link-siga-youtube" title="Inscreva-se no nosso canal no Youtube"><img src="https://amanha.com.br/images/portal/ui/email/i-yt.png" height="24" width="24" alt="Inscreva-se no nosso canal no Youtube"></a> </td> </tr></tbody></table> </td></tr></tbody></table> </td><td valign="top" style="padding: 15px 5px 15px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="#link-ouca-podcast" title="Ouça nosso Podcast"><img src="https://amanha.com.br/images/portal/ui/email/i-po.png" height="24" width="24" alt="Ouça nosso Podcast"></a> </td> </tr></tbody></table> </td></tr></tbody></table> </td><td valign="top" style="padding: 15px 5px 15px 5px;"> <table border="0" cellpadding="0" cellspacing="0" width=""> <tbody><tr> <td align="left" valign="middle"> <table border="0" cellpadding="0" cellspacing="0"> <tbody><tr> <td valign="middle"> <a href="#link-fale-whatsapp" title="Fale conosco no Whatsapp"><img src="https://amanha.com.br/images/portal/ui/email/i-wa.png" height="24" width="24" alt="Fale conosco no Whatsapp"></a> </td> </tr></tbody></table> </td></tr></tbody></table> </td></tr></tbody></table> </div> <p style="font-size: 11px;font-family: sans-serif;padding-bottom: 0;margin: 0;">© 2020 Revista Amanhã. Todos os direitos reservados.</p> <p style="font-size: 11px;font-family: sans-serif;padding-top: 0px;margin: 0;">Estamos enviando este email porque você assinou a newsletter em nosso site.<br>Se preferir não receber estes e-mails, <a href="#link-unsubscribe" style=" color: #8c8c8c; ">clique aqui</a> para cancelar sua assinatura de e-mails.<br> </p></div></div>';
+          var rodape_close = '</td></tr></tbody></table></div></body></html>';
+          
+          var html_email = '';
+
+          generateHtml();
+
+          function getInputDate(){
+            data = $('#data-envio').val()
+            data = new Date(data+' 00:00');
+            return (new Intl.DateTimeFormat('pt-br')).format(data);
+          }
+
+          function setInputDate(_id){
+            var _dat = document.querySelector(_id);
+            var hoy = new Date(),
+               d = hoy.getDate(),
+               m = hoy.getMonth()+1, 
+               y = hoy.getFullYear(),
+               data;
+
+            if(d < 10){
+               d = "0"+d;
+            };
+            if(m < 10){
+               m = "0"+m;
+            };
+
+            data = y+"-"+m+"-"+d;
+            _dat.value = data;
+         }
+         
+
+          function download(filename, text) {
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+          }
+
+          function generateHtml(){
+            html_email = '';
+            html_email += header_open; 
+            html_email += header_email;
+            if($('#show-publicidade').is(':checked')){
+               html_email += header_ads;  
+            }
+            html_email += header_logo;
+            html_email += header_close;
+
+            html_email += conteudo_open;
+            if($('#show-share-email').is(':checked')){
+               html_email += conteudo_redes;
+            }
+
+            if($('#show-destaques').is(':checked')){
+               html_email += conteudo_destaque_open;
+               html_email += conteudo_destaque;
+               if($('#show-publicidade').is(':checked')){
+                  html_email += conteudo_destaque_ads;
+               }
+               html_email += conteudo_destaque_close;
+            }
+
+            if($('#show-podcasts').is(':checked')){
+               html_email += conteudo_podcasts_open;
+               html_email += conteudo_podcasts;
+               html_email += conteudo_podcasts_close;
+            }
+
+            if($('#show-noticias').is(':checked')){
+               html_email += conteudo_noticias_open;
+               html_email += conteudo_noticias;
+               html_email += conteudo_noticias_close;
+            }
+
+            html_email += conteudo_close;
+
+            html_email += rodape_open;
+            if($('#show-publicidade').is(':checked')){
+               html_email += rodape_ads;
+            }
+            html_email += rodape_redes;
+            html_email += rodape_close;
+
+            $('.copy-html').val(html_email);
+            $('.pre-visualizacao').html(html_email);
+          }
+
+          function hide_alerts(){
+            $('.alert-a').hide();
+            $('.alert-b').hide();
+            $('.alert-c').hide();
+          }
+
+          function alert_waiting(){
+            hide_alerts();
+            $('.alert-b').show();
+            $('.form-control').prop( "disabled", true );
+          }
+
+          function alert_success(){
+            hide_alerts();
+            $('.alert-a').show();
+            $('.form-control').prop( "disabled", false );
+          }
+
+          function alert_danger(){
+            hide_alerts();
+            $('.alert-c').show();
+            $('.form-control').prop( "disabled", false );
+          }
+
+          $('.copy-code').on('click',function(){
+            var text = document.getElementById("copy-html");
+            text.select();
+            text.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Código copiado!" );
+          });
+
+          $('.download-code-html').on('click',function(e){
+            e.preventDefault();
+            var text = $('.copy-html').val();
+            var filename = "email.html";
+            
+            download(filename, text);
+          });
+
+          $('.download-code-txt').on('click',function(e){
+            e.preventDefault();
+            var text = $('.copy-html').val();
+            var filename = "email.txt";
+            
+            download(filename, text);
+          });
+
+
+          /* DESTAQUES */
+          function conteudo_destaque_reset(){
+            $('.destaques-inputs').html('');
+            conteudo_destaque_list = [];
+            conteudo_destaque = '';
+            hide_alerts();
+          }
 
           $('#show-destaques').on('change',function(){
             if($(this).is(':checked')){
                $('.destaques-qty').show('slow');
+               conteudo_destaque_reset();
             }else{
                $('.destaques-qty').hide('slow');
+               conteudo_destaque_reset();            
             }
           });
           $('.destaques-qty').on('change', function () {
             qty = $(this).find('.form-control').val();
-            $('.destaques-inputs').html('');
+            conteudo_destaque_reset();
             for(i = 0; i < qty; i++){
                dest = $('<div class="form-group row"><label class= "col-md-4 control-label" for= "textinput" > Publicação '+ (i+1)+'</label ><div class="col-md-8"><input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md destaques-item" required=""><small class="form-text text-muted">Informe a URL da publicação ' + (i + 1) +'</small>  </div></div>');
                $('.destaques-inputs').append(dest);
@@ -42,20 +248,167 @@
           });
           $('.destaques-inputs').on('change', '.destaques-item', function () {
             var item = $(this);
+            var link = $(this).val();
+            conteudo_destaque = '';
             item.removeClass('is-valid');
             item.removeClass('is-invalid');
+            alert_waiting();
             $.ajax({
                 method: "POST",
                 url: apiurl+"/post",
                 data: { url:$(this).val() }
              })
-               .done(function () {
+               .done(function (resposta) {
+                  if($('#show-share-post').is(':checked')){
+                     template = conteudo_destaque_template_r;
+                  }else{
+                     template = conteudo_destaque_template;
+                  }
+                  template = template.split("[Link]").join(link);
+                  template = template.replace("[Titulo]",resposta.titulo);
+                  template = template.replace("[Foto]",resposta.foto);
+                  template = template.replace("[Chapeu]",resposta.chapeu);
+                  template = template.replace("[Introducao]",resposta.intro);
+                  conteudo_destaque_list.push(template);
+                  for(let i = 0; i < conteudo_destaque_list.length; i++){
+                     conteudo_destaque += conteudo_destaque_list[i];
+                  }
+                  generateHtml();
+                  alert_success();
                   item.addClass('is-valid');
                })
                .fail(function () {
+                  alert_danger();
                   item.addClass('is-invalid');
                });
-          }); 
+          });
+
+
+          /* PODCASTS */
+          function conteudo_podcasts_reset(){
+            $('.podcasts-inputs').html('');
+            conteudo_podcasts_list = [];
+            conteudo_podcasts = '';
+            hide_alerts();
+          }
+          $('#show-podcasts').on('change',function(){
+            if($(this).is(':checked')){
+               $('.podcasts-qty').show('slow');
+               conteudo_podcasts_reset();
+            }else{
+               $('.podcasts-qty').hide('slow');
+               conteudo_podcasts_reset();            
+            }
+          });
+          $('.podcasts-qty').on('change', function () {
+            qty = $(this).find('.form-control').val();
+            conteudo_podcasts_reset();
+            for(i = 0; i < qty; i++){
+               dest = $('<div class="form-group row"><label class= "col-md-4 control-label" for= "textinput" > Publicação '+ (i+1)+'</label ><div class="col-md-8"><input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md podcast-item" required=""><small class="form-text text-muted">Informe a URL da publicação ' + (i + 1) +'</small>  </div></div>');
+               $('.podcasts-inputs').append(dest);
+            }
+            
+          });
+          $('.podcasts-inputs').on('change', '.podcast-item', function () {
+            var item = $(this);
+            var link = $(this).val();
+            conteudo_podcasts = '';
+            item.removeClass('is-valid');
+            item.removeClass('is-invalid');
+            alert_waiting();
+            $.ajax({
+                method: "POST",
+                url: apiurl+"/post",
+                data: { url:$(this).val() }
+             })
+               .done(function (resposta) {
+                  if($('#show-share-post').is(':checked')){
+                     template = conteudo_podcasts_template_r;
+                  }else{
+                     template = conteudo_podcasts_template;
+                  }
+                  template = template.split("[Link]").join(link);
+                  template = template.replace("[Titulo]",resposta.titulo);
+                  template = template.replace("[Foto]",resposta.foto);
+                  template = template.replace("[Chapeu]",resposta.chapeu);
+                  template = template.replace("[Introducao]",resposta.intro);
+                  conteudo_podcasts_list.push(template);
+                  for(let i = 0; i < conteudo_podcasts_list.length; i++){
+                     conteudo_podcasts += conteudo_podcasts_list[i];
+                  }
+                  generateHtml();
+                  alert_success();
+                  item.addClass('is-valid');
+               })
+               .fail(function () {
+                  alert_danger();
+                  item.addClass('is-invalid');
+               });
+          });
+
+
+          /* NOTICIAS */
+          function conteudo_noticias_reset(){
+            $('.noticias-inputs').html('');
+            conteudo_noticias_list = [];
+            conteudo_noticias = '';
+            hide_alerts();
+          }
+          $('#show-noticias').on('change',function(){
+            if($(this).is(':checked')){
+               $('.noticias-qty').show('slow');
+               conteudo_noticias_reset();
+            }else{
+               $('.noticias-qty').hide('slow');
+               conteudo_noticias_reset();            
+            }
+          });
+          $('.noticias-qty').on('change', function () {
+            qty = $(this).find('.form-control').val();
+            conteudo_noticias_reset();
+            for(i = 0; i < qty; i++){
+               dest = $('<div class="form-group row"><label class= "col-md-4 control-label" for= "textinput" > Publicação '+ (i+1)+'</label ><div class="col-md-8"><input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md noticia-item" required=""><small class="form-text text-muted">Informe a URL da publicação ' + (i + 1) +'</small>  </div></div>');
+               $('.noticias-inputs').append(dest);
+            }
+            
+          });
+          $('.noticias-inputs').on('change', '.noticia-item', function () {
+            var item = $(this);
+            var link = $(this).val();
+            conteudo_noticias = '';
+            item.removeClass('is-valid');
+            item.removeClass('is-invalid');
+            alert_waiting();
+            $.ajax({
+                method: "POST",
+                url: apiurl+"/post",
+                data: { url:$(this).val() }
+             })
+               .done(function (resposta) {
+                  if($('#show-share-post').is(':checked')){
+                     template = conteudo_noticias_template_r;
+                  }else{
+                     template = conteudo_noticias_template;
+                  }
+                  template = template.split("[Link]").join(link);
+                  template = template.replace("[Titulo]",resposta.titulo);
+                  template = template.replace("[Foto]",resposta.foto);
+                  template = template.replace("[Chapeu]",resposta.chapeu);
+                  template = template.replace("[Introducao]",resposta.intro);
+                  conteudo_noticias_list.push(template);
+                  for(let i = 0; i < conteudo_noticias_list.length; i++){
+                     conteudo_noticias += conteudo_noticias_list[i];
+                  }
+                  generateHtml();
+                  alert_success();
+                  item.addClass('is-valid');
+               })
+               .fail(function () {
+                  alert_danger();
+                  item.addClass('is-invalid');
+               });
+          });
+           
          });
       </script>
       <style>
@@ -124,11 +477,31 @@
                      <div class="form-group row">
                         <label for="data-envio" class="col-4 col-form-label">Data de Envio</label>
                         <div class="col-8">
-                           <input class="form-control" type="date" value="2020-08-01" id="data-envio">
+                           <input class="form-control" type="date" id="data-envio">
                            <small class="form-text text-muted">Personalize a data de exibição na newsletter.</small>
                         </div>
                      </div>
                   </fieldset>
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Configurações</legend>
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-share-email" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-share-email">Compartilhar E-mail
+                        <small class="form-text text-muted">Ativa os botões de compartilhamento da newsletter nas redes sociais.</small></label>
+                     </div>
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-share-post" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-share-post">Compartilhar Conteúdo
+                        <small class="form-text text-muted">Ativa os botões de compartilhamento de cada conteúdo da newsletter nas redes sociais.</small></label>
+                     </div>
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-publicidade" checked="" data-toggle="toggle">
+                        <label class="custom-control-label" for="show-publicidade">Publicidade
+                        <small class="form-text text-muted">Exibir publicidade na newsletter.</small></label>
+                     </div>
+                  </fieldset>
+
                   <fieldset>
                      <!-- Form Name -->
                      <legend>Destaques</legend>
@@ -154,26 +527,53 @@
                      <div class="destaques-inputs">
                      </div>  
                   </fieldset>
+
+                  <fieldset>
+                     <!-- Form Name -->
+                     <legend>Podcasts</legend>
+                     <!-- Multiple Radios (inline) -->
+                     <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="show-podcasts"  data-toggle="toggle">
+                        <label class="custom-control-label" for="show-podcasts">Exibir Podcasts</label>
+                        <small class="form-text text-muted">Habilite está opção para exibir podcasts na newsletter.</small>  
+                     </div>
+                     <!-- Quantidade -->
+                     <div class="form-group row podcasts-qty" style="display:none">
+                        <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
+                        <div class="col-md-8">
+                           <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="" selected disabled>Selecione</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                           </select>
+                           <small class="form-text text-muted">Quantos podcasts deseja adicionar na newsletter?</small>  
+                        </div>
+                     </div>
+                     <div class="podcasts-inputs">
+                     </div>  
+                  </fieldset>
+
                   <fieldset>
                      <!-- Form Name -->
                      <legend>Notícias</legend>
                      <!-- Multiple Radios (inline) -->
                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show-noticias" checked="" data-toggle="toggle">
+                        <input type="checkbox" class="custom-control-input" id="show-noticias" data-toggle="toggle">
                         <label class="custom-control-label" for="show-noticias">Exibir Notícias</label>
                         <small class="form-text text-muted">Habilite está opção para exibir notícias na newsletter.</small>  
                      </div>
                      <!-- Quantidade -->
-                     <div class="form-group row">
+                     <div class="form-group row noticias-qty" style="display:none">
                         <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
                         <div class="col-md-8">
                            <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="" selected disabled>Selecione</option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
                               <option value="4">4</option>
                               <option value="5">5</option>
-                              <option value="6" selected="">6</option>
+                              <option value="6">6</option>
                               <option value="7">7</option>
                               <option value="8">8</option>
                               <option value="9">9</option>
@@ -182,270 +582,67 @@
                            <small class="form-text text-muted">Quantas notícias deseja exibir na newsletter?</small>  
                         </div>
                      </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 1</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 1</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 2</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 2</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 3</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 3</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 4</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 4</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 5</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 5</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 6</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 6</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 7</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 7</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 8</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 8</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 9</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 9</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 10</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 10</small>  
-                        </div>
-                     </div>
+                     <div class="noticias-inputs">
+                     </div>  
                   </fieldset>
-                  <fieldset>
-                     <!-- Form Name -->
-                     <legend>Podcasts</legend>
-                     <!-- Multiple Radios (inline) -->
-                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show-podcasts" checked="" data-toggle="toggle">
-                        <label class="custom-control-label" for="show-podcasts">Exibir Podcasts</label>
-                        <small class="form-text text-muted">Habilite está opção para exibir podcasts na newsletter.</small>  
-                     </div>
-                     <!-- Quantidade -->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
-                        <div class="col-md-8">
-                           <select id="selectbasic" name="selectbasic" class="form-control">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                           </select>
-                           <small class="form-text text-muted">Quantos podcasts deseja adicionar na newsletter?</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Podcast 1</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do podcast 1</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Podcast 2</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do podcast 2</small>  
-                        </div>
-                     </div>
-                  </fieldset>
+                  
                   <fieldset>
                      <!-- Form Name -->
                      <legend>Blogs e Colunas</legend>
                      <!-- Multiple Radios (inline) -->
                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show-blogs-colunas" checked="" data-toggle="toggle">
+                        <input type="checkbox" class="custom-control-input" id="show-blogs-colunas"  data-toggle="toggle">
                         <label class="custom-control-label" for="show-blogs-colunas">Exibir Blogs e Colunas</label>
                         <small class="form-text text-muted">Habilite está opção para exibir blogs e colunas na newsletter.</small>  
                      </div>
                      <!-- Quantidade -->
-                     <div class="form-group row">
+                     <div class="form-group row blogs-qty" style="display:none">
                         <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
                         <div class="col-md-8">
                            <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="" selected disabled>Selecione</option>
                               <option value="1">1</option>
-                              <option value="2" selected="">2</option>
+                              <option value="2">2</option>
                               <option value="3">3</option>
                               <option value="4">4</option>
                            </select>
                            <small class="form-text text-muted">Quantos blogs e/ou colunas deseja adicionar na newsletter?</small>  
                         </div>
                      </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 1</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 1</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 2</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 2</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 3</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 3</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Publicação 4</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL da publicação 4</small>  
-                        </div>
-                     </div>
+                     <div class="blogs-inputs">
+                     </div>  
                   </fieldset>
+
                   <fieldset>
                      <!-- Form Name -->
                      <legend>Estreias de Filmes</legend>
                      <!-- Multiple Radios (inline) -->
                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show-estreias" checked="" data-toggle="toggle">
+                        <input type="checkbox" class="custom-control-input" id="show-estreias" data-toggle="toggle">
                         <label class="custom-control-label" for="show-estreias">Exibir Estreias de Filmes</label>
                         <small class="form-text text-muted">Habilite está opção para exibir estreias de filmes newsletter.</small>  
                      </div>
                      <!-- Quantidade -->
-                     <div class="form-group row">
+                     <div class="form-group row filmes-qty" style="display:none">
                         <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
                         <div class="col-md-8">
                            <select id="selectbasic" name="selectbasic" class="form-control">
+                              <option value="" selected disabled>Selecione</option>
                               <option value="4">4</option>
                               <option value="8">8</option>
                            </select>
                            <small class="form-text text-muted">Quantos filmes deseja adicionar na newsletter?</small>  
                         </div>
                      </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Filme  1</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do filme 1</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Filme  2</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do filme 2</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Filme  3</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do filme 3</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row">
-                        <label class="col-md-4 control-label" for="textinput">Filme  4</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do filme 4</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Filme  5</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do filme 5</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Filme  6</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do filme 6</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Filme  7</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do filme 7</small>  
-                        </div>
-                     </div>
-                     <!-- Text input-->
-                     <div class="form-group row d-none">
-                        <label class="col-md-4 control-label" for="textinput">Filme  8</label>  
-                        <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
-                           <small class="form-text text-muted">Informe a URL do filme 8</small>  
-                        </div>
-                     </div>
+                     <div class="filmes-inputs">
+                     </div>  
                   </fieldset>
                   <fieldset>
                      <!-- Form Name -->
                      <legend>Edição Impressa</legend>
                      <!-- Multiple Radios (inline) -->
                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show-edicao-impressa" checked="" data-toggle="toggle">
+                        <input type="checkbox" class="custom-control-input" id="show-edicao-impressa"  data-toggle="toggle">
                         <label class="custom-control-label" for="show-edicao-impressa">Exibir Edição Impressa</label>
                         <small class="form-text text-muted">Habilite está opção para exibir a edição impressa na newsletter.</small>  
                      </div>
@@ -458,25 +655,7 @@
                         </div>
                      </div>
                   </fieldset>
-                  <fieldset>
-                     <!-- Form Name -->
-                     <legend>Configurações Extras</legend>
-                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show-share-email" checked="" data-toggle="toggle">
-                        <label class="custom-control-label" for="show-share-email">Compartilhar E-mail
-                        <small class="form-text text-muted">Ativa os botões de compartilhamento da newsletter nas redes sociais.</small></label>
-                     </div>
-                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show-share-post" checked="" data-toggle="toggle">
-                        <label class="custom-control-label" for="show-share-post">Compartilhar Conteúdo
-                        <small class="form-text text-muted">Ativa os botões de compartilhamento de cada conteúdo da newsletter nas redes sociais.</small></label>
-                     </div>
-                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="show-publicidade" checked="" data-toggle="toggle">
-                        <label class="custom-control-label" for="show-publicidade">Publicidade
-                        <small class="form-text text-muted">Exibir publicidade na newsletter.</small></label>
-                     </div>
-                  </fieldset>
+                  
                   <div style="
                      padding: 20px 0;
                      ">
@@ -495,8 +674,8 @@
                            text-align: right;
                            ">
                            <div class="form-group">
-                              <label for="exampleFormControlTextarea1"></label>
-                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" readonly="" style="
+                              <label for="copy-html"></label>
+                              <textarea class="form-control copy-html" id="copy-html" rows="10" readonly="" style="
                                  font-size: 12px;
                                  background: #ced4da;
                                  border: 1px solid #ced4da;
@@ -527,25 +706,25 @@
                         <div class="btn-group" style="
                            margin: 0 9px;
                            ">
-                           <button type="button" class="btn btn-primary">Copiar Código</button>
+                           <button type="button" class="btn btn-primary copy-code">Copiar Código</button>
                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
                            <span class="sr-only">Baixar Newsletter</span>
                            </button>
                            <div class="dropdown-menu" aria-labelledby="dropdownMenuReference" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                              <a class="dropdown-item" href="#">Baixar Código HTML</a>
-                              <a class="dropdown-item" href="#">Baixar Código TXT</a>
+                              <a class="dropdown-item download-code-html" href="#">Baixar Código HTML</a>
+                              <a class="dropdown-item download-code-txt" href="#">Baixar Código TXT</a>
                            </div>
                         </div>
                      </div>
-                     <div class="alert alert-success" role="alert">Código da newsletter gerado com sucesso.</div>
-                     <div class="alert alert-warning" role="alert">
+                     <div class="alert alert-success alert-a" style="display:none" role="alert">Código da newsletter gerado com sucesso.</div>
+                     <div class="alert alert-warning alert-b" style="display:none" role="alert">
                         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" style="
                            right: 0;
                            position: absolute;
                            margin: 5px 15px;
                            "></span>Por favor, aguarde...<br>Coletando conteúdo do portal e atualizando o código da newsletter.
                      </div>
-                     <div class="alert alert-danger" role="alert">Desculpe. Houve um erro ao gerar o código da newsletter. <br>Atualize a página ou tente novamente mais tarde.</div>
+                     <div class="alert alert-danger alert-c" style="display:none" role="alert">Desculpe. Houve um erro ao gerar o código da newsletter. <br>Atualize a página ou tente novamente mais tarde.</div>
                   </div>
                   <div>
                      <!-- Modal -->
@@ -558,17 +737,12 @@
                                  <span aria-hidden="true">×</span>
                                  </button>
                               </div>
-                              <div class="modal-body" style="
-                                 height: 1000px;
-                                 padding: 0;
-                                 ">
-                                 <iframe src="newsletter.html" height="100%" width="100%" title="Pré-visualização" style="
-                                    border: none;
-                                    "></iframe>
+                              <div class="modal-body">
+                                 <div class="pre-visualizacao"></div>
                               </div>
                               <div class="modal-footer">
                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                 <button type="button" class="btn btn-primary">Baixar Newsletter</button>
+                                 <button type="button" class="btn btn-primary download-code-html">Baixar Newsletter</button>
                               </div>
                            </div>
                         </div>

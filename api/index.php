@@ -9,9 +9,13 @@ require 'simple_html_dom.php';
 
 $app = AppFactory::create();
 $app->setBasePath(BASEAPI);
-$baseurl = BASEURL;
 
-$app->post('/post', function (Request $request, Response $response, $args) use($baseurl) {
+$app->get('/', function (Request $request, Response $response, $args) {
+    $response->getBody()->write("Hello world!");
+    return $response;
+});
+
+$app->post('/post', function (Request $request, Response $response, $args) {
     $data = $request->getParsedBody();
 
     $html = new simple_html_dom();
@@ -19,14 +23,14 @@ $app->post('/post', function (Request $request, Response $response, $args) use($
     @$html = file_get_html($data['url']);
 
     if($html){
-        $h1 = $html->find('#post-infos .post-titulo', 0)->content;
+        $titulo = $html->find('#post-infos .post-titulo', 0)->content;
         $chapeu = trim($html->find('#post-infos .post-chapeu', 0)->content);
         if(empty($chapeu)){
             $chapeu = $html->find('#post-infos .post-categoria', 0)->content;
         }
         $intro = $html->find('#post-infos .post-introducao', 0)->content;
-        $url = $html->find('#post-infos .post-foto-capa-l', 0)->content;
-        $json = array('h1' => $h1, 'chapeu' => $chapeu, 'intro' => $intro, 'url' => $url);
+        $foto = $html->find('#post-infos .post-foto-capa-l', 0)->content;
+        $json = array('titulo' => $titulo, 'chapeu' => $chapeu, 'intro' => $intro, 'foto' => $foto);
         $response->getBody()->write(json_encode($json));
 
         return $response
