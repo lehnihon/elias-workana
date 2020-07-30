@@ -20,6 +20,8 @@
           var email_compartilhe = 'https://amanha.com.br';
           var ad_header = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=181" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=181&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
           var ad_destaque = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=182" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=182&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
+          var ad_noticias_a = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=183" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=183&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
+          var ad_noticias_b = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=184" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=184&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
           var ad_rodape = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=185" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=185&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
 
           /* EMAIL */   
@@ -54,25 +56,25 @@
           var conteudo_noticias_template = '<td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> </td> </tr> </tbody> </table> </td>';
           var conteudo_noticias_list = [];
           var conteudo_noticias = '';
+          var conteudo_ads_a = '<tr class="ads"><td colspan="2" style="padding: 20px 10px 20px 10px;">'+ad_noticias_a+'</td></tr>';
+          var conteudo_ads_b = '<tr class="ads"><td colspan="2" style="padding: 20px 10px 20px 10px;">'+ad_noticias_b+'</td></tr>';
           var conteudo_noticias_close = '</tbody> </table> </div>';
 
-          var conteudo_blogs_open = '<div id="podcast"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">PODCAST</span></a> </p> </td> </tr>';        
-          var conteudo_blogs_template_r = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> <p style="margin: 10px 0 0 0;"> <table width="160" cellpadding="0" cellspacing="0" border="0"> <tbody> <tr> <td><a href="https://www.facebook.com/sharer/sharer.php?u=[Link]" title="Compartilhar no Facebook"><img src="https://amanha.com.br/images/portal/ui/email/i-fb.png" width="30" height="30" style="margin-right:5px;" alt="Facebook"></a></td> <td><a href="https://twitter.com/intent/tweet?url=[Link]" title="Compartilhar no Twitter"><img src="https://amanha.com.br/images/portal/ui/email/i-tw.png" width="30" height="30" style="margin-right:5px;" alt="Twitter"></a></td> <td><a href="https://linkedin.com/shareArticle?mini=true&amp;url=[Link]" title="Compartilhar no Linkedin"><img src="https://amanha.com.br/images/portal/ui/email/i-in.png" width="30" height="30" style="margin-right:5px;" alt="Linkedin"></a></td> <td><a href="https://web.whatsapp.com/send?text=[Link]" title="Compartilhar no Whatsapp"><img src="https://amanha.com.br/images/portal/ui/email/i-wa.png" width="30" height="30" style="margin-right:5px;" alt="Whatsapp"></a></td> </tr> </tbody> </table> </p> </td> </tr> </tbody> </table> </td> </tr>';
-          var conteudo_blogs_template = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_blogs_open = '<div id="blogs"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">DIRETO DOS BLOGS</span></a></p> </td> </tr>';        
+          var conteudo_blogs_template_r = '<td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <div class="autor"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top" style="padding: 0;width: 15%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 10px 0;"><a style="text-decoration: none;" href="#link-podcast-01"><img border="0" width="100%" height="auto" style="width: 100%;height: auto;max-width: 100%;border-radius: 3px;" src="[AutorFoto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 0px 10px 10px 10px;width: 85%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 3px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="#link-podcast-01">[TituloBlog]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="#link-podcast-01" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Autor]</span></a></p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </div> <p style="margin: 5px 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> <p style="margin: 10px 0 0 0;"> <table width="160" cellpadding="0" cellspacing="0" border="0"> <tbody> <tr> <td><a href="https://www.facebook.com/sharer/sharer.php?u=[Link]" title="Compartilhar no Facebook"><img src="https://amanha.com.br/images/portal/ui/email/i-fb.png" width="30" height="30" style="margin-right:5px;" alt="Facebook"></a></td> <td><a href="https://twitter.com/intent/tweet?url=[Link]" title="Compartilhar no Twitter"><img src="https://amanha.com.br/images/portal/ui/email/i-tw.png" width="30" height="30" style="margin-right:5px;" alt="Twitter"></a></td> <td><a href="https://linkedin.com/shareArticle?mini=true&amp;url=[Link]" title="Compartilhar no Linkedin"><img src="https://amanha.com.br/images/portal/ui/email/i-in.png" width="30" height="30" style="margin-right:5px;" alt="Linkedin"></a></td> <td><a href="https://web.whatsapp.com/send?text=[Link]" title="Compartilhar no Whatsapp"><img src="https://amanha.com.br/images/portal/ui/email/i-wa.png" width="30" height="30" style="margin-right:5px;" alt="Whatsapp"></a></td> </tr> </tbody> </table> </p> </td> </tr> </tbody> </table> </td>';
+          var conteudo_blogs_template = '<td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <div class="autor"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top" style="padding: 0;width: 15%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 10px 0;"><a style="text-decoration: none;" href="#link-podcast-01"><img border="0" width="100%" height="auto" style="width: 100%;height: auto;max-width: 100%;border-radius: 3px;" src="[AutorFoto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 0px 10px 10px 10px;width: 85%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 3px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="#link-podcast-01">[TituloBlog]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="#link-podcast-01" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Autor]</span></a></p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </div> <p style="margin: 5px 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a></p> </td> </tr> </tbody> </table> </td>';
           var conteudo_blogs_list = [];
           var conteudo_blogs = '';
           var conteudo_blogs_close = '</tbody> </table> </div>';
 
-          var conteudo_filmes_open = '<div id="podcast"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">PODCAST</span></a> </p> </td> </tr>';        
-          var conteudo_filmes_template = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a> </p> </td> </tr> </tbody> </table> </td> </tr>';
-          var conteudo_filmes_list = [];
-          var conteudo_filmes = '';
-          var conteudo_filmes_close = '</tbody> </table> </div>';
+          var conteudo_estreias_open = '<div id="filmes"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td colspan="4" valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">ESTREIAS DA SEMANA</span></a></p> </td> </tr>';        
+          var conteudo_estreias_template = '<td valign="top" style="padding: 10px 10px 10px 10px;width: 25%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 5px 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: auto;max-width: 100%;" src="https://[Foto]" alt=""></a></p> <p style="margin: 5px 0 5px 0;text-align: center;"><a style="font-size: 12px;font-family: &quot;Arvo&quot;,serif;color: #1d110d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> </td> </tr> </tbody> </table> </td>';
+          var conteudo_estreias_list = [];
+          var conteudo_estreias = '';
+          var conteudo_estreias_close = '</tbody> </table> </div>';
 
-          var conteudo_edicao_open = '<div id="podcast"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr id="titulo"> <td valign="top" style="padding: 30px 10px 0px 10px;"> <p><a style="text-decoration: none;" href="https://amanha.com.br/blogs" title="Blogs" target="_blank"><span style="font-size: 20px;color:#ee050d;font-family: &quot;Arvo&quot;,serif;font-weight: bold;">PODCAST</span></a> </p> </td> </tr>';        
-          var conteudo_edicao_template = '<tr> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin: 0 0 5px 0;"><a style="text-decoration: none;" href="[Link]"><img border="0" width="100%" height="145" style="width: 100%;height: 180px;max-width: 100%;" src="https:[Foto]" alt=""></a></p> </td> </tr> </tbody> </table> </td> <td valign="top" style="padding: 10px 10px 10px 10px;width: 50%;"> <table border="0" cellspacing="0" cellpadding="0" width="100%"> <tbody> <tr> <td valign="top"> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]" target="_blank"><span style="font-size: 14px;font-family:&quot;Arvo&quot;,serif;color:#8c8c8c;">[Chapeu]</span></a> </p> <p style="margin: 5px 0 5px 0;"><a style="font-size: 14px;font-family: &quot;Arvo&quot;,serif;color: #ee050d;text-decoration: none;font-weight: bold;" href="[Link]">[Titulo]</a></p> <p style="margin:0px;"><a style="text-decoration: none;" href="[Link]"><span style="font-size: 14px;font-family:&quot;Arial&quot;,sans-serif;color:#1d110d;text-decoration:none;margin-top: 0;">[Introducao]</span></a> </p> </td> </tr> </tbody> </table> </td> </tr>';
+          var conteudo_edicao_template = '<div id="edicao-impressa"> <table border="0" cellspacing="0" cellpadding="0" width="100%" style="padding: 15px 10px 0;"> <tbody> <tr> <td align="center" valign="top"> <table border="0" cellpadding="0" cellspacing="0" width="100%"> <tbody> <tr align="center"> <td align="center" style="font-family: sans-serif;" valign="top"> <div style="background: #f1f2f4;margin: 0px;padding: 20px 0 0 0;"> <div><a href="[Link]" style="text-decoration: none;color: #000000;margin: 0;padding: 0;font-size: 24px;font-weight: 600;" target="_blank">Revista Amanhã</a></div> <div style=" margin-top: 5px; margin-bottom: 10px;"><a href="[Link]" style="text-decoration: none;text-transform: uppercase;font-size: 12px;font-weight: 600;letter-spacing: .05em;padding: 0px;color: #ee050d;font-family: &quot;Arvo&quot;,serif;" target="_blank">[Titulo]</a></div> <div style="margin: 0;color: #000;font-size: 14px;font-weight: 400;margin-bottom: 14px;margin: 0 0 10px 0;padding: 0;"> <a href="[Link]" style="text-decoration: none;color: #5f5f5f;" target="_blank">Leia a última edição na íntegra.</a></div><a href="[Link]" style="text-decoration: none;" target="_blank"><img src="[Foto]" style="width: 260px;height: auto;margin-bottom: 0px;margin-top: 0px;border-radius: 4px 4px 0 0;"></a> </div> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </div>';
           var conteudo_edicao = '';
-          var conteudo_edicao_close = '</tbody> </table> </div>';
 
           var rodape_open = '<tr id="rodape"><td style="padding: 0px 10px 0px 10px;">';
           var rodape_ads = '<div id="ads"><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr class="ads"><td colspan="2" style="padding: 20px 0px 20px 0px;">'+ad_rodape+'</td></tr></tbody></table></div>';
@@ -156,6 +158,22 @@
                html_email += conteudo_noticias_open;
                html_email += conteudo_noticias;
                html_email += conteudo_noticias_close;
+            }
+
+            if($('#show-blogs-colunas').is(':checked')){
+               html_email += conteudo_blogs_open;
+               html_email += conteudo_blogs;
+               html_email += conteudo_blogs_close;
+            }
+
+            if($('#show-estreias').is(':checked')){
+               html_email += conteudo_estreias_open;
+               html_email += conteudo_estreias;
+               html_email += conteudo_estreias_close;
+            }
+
+            if($('#show-edicao-impressa').is(':checked')){
+               html_email += conteudo_edicao_open;
             }
 
             html_email += conteudo_close;
@@ -306,8 +324,7 @@
             for(i = 0; i < qty; i++){
                dest = $('<div class="form-group row"><label class= "col-md-4 control-label" for= "textinput" > Publicação '+ (i+1)+'</label ><div class="col-md-8"><input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md podcast-item" required=""><small class="form-text text-muted">Informe a URL da publicação ' + (i + 1) +'</small>  </div></div>');
                $('.podcasts-inputs').append(dest);
-            }
-            
+            } 
           });
           $('.podcasts-inputs').on('change', '.podcast-item', function () {
             var item = $(this);
@@ -396,9 +413,34 @@
                   template = template.replace("[Chapeu]",resposta.chapeu);
                   template = template.replace("[Introducao]",resposta.intro);
                   conteudo_noticias_list.push(template);
+
+                  conteudo_noticias += "<tr>";
                   for(let i = 0; i < conteudo_noticias_list.length; i++){
                      conteudo_noticias += conteudo_noticias_list[i];
+
+                     if(i == 1){
+                        conteudo_noticias += "</tr>";
+                        conteudo_noticias += conteudo_ads_a;
+                        conteudo_noticias += "<tr>";
+                     }
+
+                     if(i == 3){
+                        conteudo_noticias += "</tr>";
+                        conteudo_noticias += "<tr>";
+                     }
+
+                     if(i == 5){
+                        conteudo_noticias += "</tr>";
+                        conteudo_noticias += conteudo_ads_b;
+                        conteudo_noticias += "<tr>";
+                     }
+
+                     if(i == 7){
+                        conteudo_noticias += "</tr>";
+                        conteudo_noticias += "<tr>";
+                     }
                   }
+                  conteudo_noticias += "</tr>";
                   generateHtml();
                   alert_success();
                   item.addClass('is-valid');
@@ -408,6 +450,196 @@
                   item.addClass('is-invalid');
                });
           });
+
+
+
+          /* DIRETO DOS BLOGS */
+          function conteudo_blogs_reset(){
+            $('.blogs-inputs').html('');
+            conteudo_blogs_list = [];
+            conteudo_blogs = '';
+            hide_alerts();
+          }
+          $('#show-blogs-colunas').on('change',function(){
+            if($(this).is(':checked')){
+               $('.blogs-qty').show('slow');
+               conteudo_blogs_reset();
+            }else{
+               $('.blogs-qty').hide('slow');
+               conteudo_blogs_reset();            
+            }
+          });
+          $('.blogs-qty').on('change', function () {
+            qty = $(this).find('.form-control').val();
+            conteudo_blogs_reset();
+            for(i = 0; i < qty; i++){
+               dest = $('<div class="form-group row"><label class= "col-md-4 control-label" for= "textinput" > Publicação '+ (i+1)+'</label ><div class="col-md-8"><input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md blog-item" required=""><small class="form-text text-muted">Informe a URL da publicação ' + (i + 1) +'</small>  </div></div>');
+               $('.blogs-inputs').append(dest);
+            }
+            
+          });
+          $('.blogs-inputs').on('change', '.blog-item', function () {
+            var item = $(this);
+            var link = $(this).val();
+            conteudo_blogs = '';
+            item.removeClass('is-valid');
+            item.removeClass('is-invalid');
+            alert_waiting();
+            $.ajax({
+                method: "POST",
+                url: apiurl+"/post",
+                data: { url:$(this).val() }
+             })
+               .done(function (resposta) {
+                  if($('#show-share-post').is(':checked')){
+                     template = conteudo_blogs_template_r;
+                  }else{
+                     template = conteudo_blogs_template;
+                  }
+                  template = template.split("[Link]").join(link);
+                  template = template.replace("[Titulo]",resposta.titulo);
+                  template = template.replace("[Foto]",resposta.foto);
+                  template = template.replace("[Chapeu]",resposta.chapeu);
+                  template = template.replace("[Introducao]",resposta.intro);
+                  template = template.replace("[Autor]",resposta.autor);
+                  template = template.replace("[AutorFoto]",resposta.autor_foto);
+                  conteudo_blogs_list.push(template);
+
+                  conteudo_blogs += "<tr>";
+                  for(let i = 0; i < conteudo_blogs_list.length; i++){
+                     conteudo_blogs += conteudo_blogs_list[i];
+
+                     if(i == 1){
+                        conteudo_blogs += "</tr>";
+                        conteudo_blogs += "<tr>";
+                     }
+                  }
+                  conteudo_blogs += "</tr>";
+                  generateHtml();
+                  alert_success();
+                  item.addClass('is-valid');
+               })
+               .fail(function () {
+                  alert_danger();
+                  item.addClass('is-invalid');
+               });
+          });
+
+
+          /* ESTREIAS */
+          function conteudo_estreias_reset(){
+            $('.estreias-inputs').html('');
+            conteudo_estreias_list = [];
+            conteudo_estreias = '';
+            hide_alerts();
+          }
+          $('#show-estreias').on('change',function(){
+            if($(this).is(':checked')){
+               $('.estreias-qty').show('slow');
+               conteudo_estreias_reset();
+            }else{
+               $('.estreias-qty').hide('slow');
+               conteudo_estreias_reset();            
+            }
+          });
+          $('.estreias-qty').on('change', function () {
+            qty = $(this).find('.form-control').val();
+            conteudo_estreias_reset();
+            for(i = 0; i < qty; i++){
+               dest = $('<div class="form-group row"><label class= "col-md-4 control-label" for= "textinput" > Estreia '+ (i+1)+'</label ><div class="col-md-8"><input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md estreia-item" required=""><small class="form-text text-muted">Informe a URL da publicação ' + (i + 1) +'</small>  </div></div>');
+               $('.estreias-inputs').append(dest);
+            }
+            
+          });
+          $('.estreias-inputs').on('change', '.estreia-item', function () {
+            var item = $(this);
+            var link = $(this).val();
+            conteudo_estreias = '';
+            item.removeClass('is-valid');
+            item.removeClass('is-invalid');
+            alert_waiting();
+            $.ajax({
+                method: "POST",
+                url: apiurl+"/post",
+                data: { url:$(this).val() }
+             })
+               .done(function (resposta) {
+                  template = conteudo_estreias_template;
+
+                  template = template.split("[Link]").join(link);
+                  template = template.replace("[Titulo]",resposta.titulo);
+                  template = template.replace("[Foto]",resposta.foto);
+                  template = template.replace("[Chapeu]",resposta.chapeu);
+                  template = template.replace("[Introducao]",resposta.intro);
+                  template = template.replace("[Autor]",resposta.autor);
+                  template = template.replace("[AutorFoto]",resposta.autor_foto);
+                  conteudo_estreias_list.push(template);
+
+                  conteudo_estreias += "<tr>";
+                  for(let i = 0; i < conteudo_estreias_list.length; i++){
+                     conteudo_estreias += conteudo_estreias_list[i];
+
+                     if(i == 3){
+                        conteudo_estreias += "</tr>";
+                        conteudo_estreias += "<tr>";
+                     }
+                  }
+                  conteudo_estreias += "</tr>";
+                  generateHtml();
+                  alert_success();
+                  item.addClass('is-valid');
+               })
+               .fail(function () {
+                  alert_danger();
+                  item.addClass('is-invalid');
+               });
+          });
+
+
+          // EDIÇÃO
+          $('#show-edicao-impressa').on('change',function(){
+            if($(this).is(':checked')){
+               $('.edicao-qty').show('slow');
+            }else{
+               $('.edicao-qty').hide('slow');           
+            }
+          });
+
+          $('.edicao-item').on('change', function () {
+            var item = $(this);
+            var link = $(this).val();
+            conteudo_edicao = '';
+            item.removeClass('is-valid');
+            item.removeClass('is-invalid');
+            alert_waiting();
+            $.ajax({
+                method: "POST",
+                url: apiurl+"/post",
+                data: { url:$(this).val() }
+             })
+               .done(function (resposta) {
+                  template = conteudo_edicao_template;
+
+                  template = template.split("[Link]").join(link);
+                  template = template.replace("[Titulo]",resposta.titulo);
+                  template = template.replace("[Foto]",resposta.foto);
+                  template = template.replace("[Chapeu]",resposta.chapeu);
+                  template = template.replace("[Introducao]",resposta.intro);
+                  template = template.replace("[Autor]",resposta.autor);
+                  template = template.replace("[AutorFoto]",resposta.autor_foto);
+
+                  conteudo_edicao += template;
+                  
+                  generateHtml();
+                  alert_success();
+                  item.addClass('is-valid');
+               })
+               .fail(function () {
+                  alert_danger();
+                  item.addClass('is-invalid');
+               });
+          });
+
            
          });
       </script>
@@ -623,7 +855,7 @@
                         <small class="form-text text-muted">Habilite está opção para exibir estreias de filmes newsletter.</small>  
                      </div>
                      <!-- Quantidade -->
-                     <div class="form-group row filmes-qty" style="display:none">
+                     <div class="form-group row estreias-qty" style="display:none">
                         <label class="col-md-4 control-label" for="selectbasic">Quantidade</label>
                         <div class="col-md-8">
                            <select id="selectbasic" name="selectbasic" class="form-control">
@@ -634,7 +866,7 @@
                            <small class="form-text text-muted">Quantos filmes deseja adicionar na newsletter?</small>  
                         </div>
                      </div>
-                     <div class="filmes-inputs">
+                     <div class="estreias-inputs">
                      </div>  
                   </fieldset>
                   <fieldset>
@@ -647,10 +879,10 @@
                         <small class="form-text text-muted">Habilite está opção para exibir a edição impressa na newsletter.</small>  
                      </div>
                      <!-- Text input-->
-                     <div class="form-group row">
+                     <div class="form-group row edicao-qty" style="display:none">
                         <label class="col-md-4 control-label" for="textinput">URL da Edição</label>  
                         <div class="col-md-8">
-                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control input-md" required="">
+                           <input id="textinput" name="textinput" type="text" placeholder="http://www.." class="form-control edicao-item input-md" required="">
                            <small class="form-text text-muted">Informe a URL da edição impressa</small>  
                         </div>
                      </div>

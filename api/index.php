@@ -30,7 +30,9 @@ $app->post('/post', function (Request $request, Response $response, $args) {
         }
         $intro = $html->find('#post-infos .post-introducao', 0)->content;
         $foto = $html->find('#post-infos .post-foto-capa-l', 0)->content;
-        $json = array('titulo' => $titulo, 'chapeu' => $chapeu, 'intro' => $intro, 'foto' => $foto);
+        $autor = $html->find('#post-infos .post-autor', 0)->content;
+        $autor_foto = $html->find('#post-infos .post-autor-foto', 0)->content;
+        $json = array('titulo' => $titulo, 'chapeu' => $chapeu, 'intro' => $intro, 'foto' => $foto,'autor' => $autor, 'autor_foto' => $autor_foto);
         $response->getBody()->write(json_encode($json));
 
         return $response
