@@ -15,7 +15,7 @@
           setInputDate("#data-envio");
 
           /* CONFIGURACOES */
-          var apiurl = "http://localhost:8001/elias-workana/api";
+          var apiurl = "http://voyagerone.com.br/elias-work/api";
 
           var email_compartilhe = 'https://amanha.com.br';
           var ad_header = '<a href="http://ads.cattive.me/painel/delivery/ck.php?zoneid=181" target="_blank"><img src="http://ads.cattive.me/painel/delivery/avw.php?zoneid=181&amp;cb=INSERT_RANDOM_NUMBER_HERE" border="0" alt=""></a>';
@@ -173,7 +173,7 @@
             }
 
             if($('#show-edicao-impressa').is(':checked')){
-               html_email += conteudo_edicao_open;
+               html_email += conteudo_edicao;
             }
 
             html_email += conteudo_close;
@@ -420,7 +420,9 @@
 
                      if(i == 1){
                         conteudo_noticias += "</tr>";
-                        conteudo_noticias += conteudo_ads_a;
+                        if($('#show-publicidade').is(':checked')){
+                           conteudo_noticias += conteudo_ads_a;
+                        }
                         conteudo_noticias += "<tr>";
                      }
 
@@ -431,7 +433,9 @@
 
                      if(i == 5){
                         conteudo_noticias += "</tr>";
-                        conteudo_noticias += conteudo_ads_b;
+                        if($('#show-publicidade').is(':checked')){
+                           conteudo_noticias += conteudo_ads_b;
+                        }
                         conteudo_noticias += "<tr>";
                      }
 

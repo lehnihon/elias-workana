@@ -1,2 +1,2 @@
 <?php
-define("BASEAPI", "/elias-workana/api");
+define("BASEAPI", "/elias-work/api");
