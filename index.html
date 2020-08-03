@@ -73,7 +73,7 @@
           var conteudo_estreias = '';
           var conteudo_estreias_close = '</tbody> </table> </div>';
 
-          var conteudo_edicao_template = '<div id="edicao-impressa"> <table border="0" cellspacing="0" cellpadding="0" width="100%" style="padding: 15px 10px 0;"> <tbody> <tr> <td align="center" valign="top"> <table border="0" cellpadding="0" cellspacing="0" width="100%"> <tbody> <tr align="center"> <td align="center" style="font-family: sans-serif;" valign="top"> <div style="background: #f1f2f4;margin: 0px;padding: 20px 0 0 0;"> <div><a href="[Link]" style="text-decoration: none;color: #000000;margin: 0;padding: 0;font-size: 24px;font-weight: 600;" target="_blank">Revista Amanhã</a></div> <div style=" margin-top: 5px; margin-bottom: 10px;"><a href="[Link]" style="text-decoration: none;text-transform: uppercase;font-size: 12px;font-weight: 600;letter-spacing: .05em;padding: 0px;color: #ee050d;font-family: &quot;Arvo&quot;,serif;" target="_blank">[Titulo]</a></div> <div style="margin: 0;color: #000;font-size: 14px;font-weight: 400;margin-bottom: 14px;margin: 0 0 10px 0;padding: 0;"> <a href="[Link]" style="text-decoration: none;color: #5f5f5f;" target="_blank">Leia a última edição na íntegra.</a></div><a href="[Link]" style="text-decoration: none;" target="_blank"><img src="[Foto]" style="width: 260px;height: auto;margin-bottom: 0px;margin-top: 0px;border-radius: 4px 4px 0 0;"></a> </div> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </div>';
+          var conteudo_edicao_template = '<div id="edicao-impressa"> <table border="0" cellspacing="0" cellpadding="0" width="100%" style="padding: 15px 10px 0;"> <tbody> <tr> <td align="center" valign="top"> <table border="0" cellpadding="0" cellspacing="0" width="100%"> <tbody> <tr align="center"> <td align="center" style="font-family: sans-serif;" valign="top"> <div style="background: #f1f2f4;margin: 0px;padding: 20px 0 0 0;"> <div><a href="[Link]" style="text-decoration: none;color: #000000;margin: 0;padding: 0;font-size: 24px;font-weight: 600;" target="_blank">Revista Amanhã</a></div> <div style=" margin-top: 5px; margin-bottom: 10px;"><a href="[Link]" style="text-decoration: none;text-transform: uppercase;font-size: 12px;font-weight: 600;letter-spacing: .05em;padding: 0px;color: #ee050d;font-family: &quot;Arvo&quot;,serif;" target="_blank">[Titulo]</a></div> <div style="margin: 0;color: #000;font-size: 14px;font-weight: 400;margin-bottom: 14px;margin: 0 0 10px 0;padding: 0;"> <a href="[Link]" style="text-decoration: none;color: #5f5f5f;" target="_blank">Leia a última edição na íntegra.</a></div><a href="[Link]" style="text-decoration: none;" target="_blank"><img src="https:[Foto]" style="width: 260px;height: auto;margin-bottom: 0px;margin-top: 0px;border-radius: 4px 4px 0 0;"></a> </div> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </div>';
           var conteudo_edicao = '';
 
           var rodape_open = '<tr id="rodape"><td style="padding: 0px 10px 0px 10px;">';
@@ -212,6 +212,18 @@
             $('.alert-c').show();
             $('.form-control').prop( "disabled", false );
           }
+
+          $('#show-share-email').on('click',function(){
+            generateHtml();
+          });
+
+          $('#show-share-post').on('click',function(){
+            generateHtml();
+          });
+
+          $('#show-publicidade').on('click',function(){
+            generateHtml();
+          });
 
           $('.copy-code').on('click',function(){
             var text = document.getElementById("copy-html");
@@ -507,6 +519,7 @@
                   template = template.replace("[Introducao]",resposta.intro);
                   template = template.replace("[Autor]",resposta.autor);
                   template = template.replace("[AutorFoto]",resposta.autor_foto);
+                  template = template.replace("[TituloBlog]",resposta.autor_tituloblog);
                   conteudo_blogs_list.push(template);
 
                   conteudo_blogs += "<tr>";
